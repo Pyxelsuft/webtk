@@ -1,5 +1,6 @@
 import io
 import base64
+import time
 import threading
 import webtk
 import requests
@@ -35,6 +36,7 @@ class WebViewApp:
                 'fwg': -1,
                 'rps': -1
             }
+        time.sleep(3)  # For fun
         self.wv.response(req_id, resp_data)
 
     def stop_cb(self, req_id: bytes) -> None:
@@ -60,5 +62,16 @@ class WebViewApp:
         self.wv.destroy()
 
 
+class BrowserApp:
+    def __init__(self) -> None:
+        url = 'index.html'
+        try:
+            webtk.chrome.run_chrome('https://pixelsuft.github.io/')
+        except RuntimeError:
+            raise RuntimeError('Failed to run any browser')
+        print(1)
+
+
 if __name__ == '__main__':
-    WebViewApp()
+    BrowserApp()
+    # WebViewApp()
