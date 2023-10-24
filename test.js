@@ -1,3 +1,3 @@
 window.onload = function() {
-    my_func(228);
+    console.log(1337);
 }
