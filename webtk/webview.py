@@ -11,7 +11,7 @@ WEBVIEW_HINT_MAX = 2
 WEBVIEW_HINT_FIXED = 3
 
 dispatch_cb = ctp.CFUNCTYPE(None, webview_t, ctypes.c_void_p)
-bind_cb = ctp.CFUNCTYPE(ctp.c_char_p, ctp.c_char_p, ctp.c_void_p)
+bind_cb = ctp.CFUNCTYPE(None, ctp.c_char_p, ctp.c_char_p, ctp.c_void_p)
 
 
 class WebViewVersion(ctp.Structure):

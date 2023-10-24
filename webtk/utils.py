@@ -7,7 +7,7 @@ if sys.platform == 'win32':
     load_library_suffix = 'dll'
 else:
     load_library_func = ctypes.CDLL
-    load_library_suffix = 'so'  # TODO: MacOS
+    load_library_suffix = 'dylib' if sys.platform == 'darwin' else 'so'
 load_library_errors = (OSError, ImportError, ModuleNotFoundError, FileNotFoundError)
 
 
