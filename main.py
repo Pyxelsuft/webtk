@@ -8,7 +8,7 @@ from PIL import ImageGrab
 
 class WebViewApp:
     def __init__(self) -> None:
-        self.wv = webtk.webview.create_webview(debug=True)
+        self.wv = webtk.webview.create_webview(debug=False)
         self.wv.set_min_size(320, 200)
         # self.wv.set_size(1024, 768)
         self.wv.bind('py_title', self.set_title_cb)
