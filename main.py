@@ -25,6 +25,8 @@ class WebViewApp:
         )
         temp_html = temp_html.replace('<script src="test.js"></script>', '')
         self.wv.set_html(temp_html)
+
+    def run(self) -> None:
         self.wv.run()
 
     def fetch_cb(self, req_id: bytes) -> None:
@@ -79,5 +81,10 @@ class BrowserApp:
 
 
 if __name__ == '__main__':
-    # BrowserApp()
-    WebViewApp()
+    try:
+        app = WebViewApp()
+    except Exception as __err:
+        print(f'Failed to use WebView {__err}, using browser as fallback')
+        app = BrowserApp()
+    if type(app) == WebViewApp:
+        app.run()
