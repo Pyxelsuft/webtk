@@ -1,7 +1,17 @@
 import os
 import contextlib
 import socket
-from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler, CGIHTTPRequestHandler, _get_best_family  # noqa
+from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler, CGIHTTPRequestHandler
+
+
+def _get_best_family(*address):
+    info = socket.getaddrinfo(
+        *address,
+        type=socket.SOCK_STREAM,
+        flags=socket.AI_PASSIVE,
+    )
+    family, type_, proto, canon_name, sock_addr = next(iter(info))
+    return family, sock_addr
 
 
 class DualStackServer(ThreadingHTTPServer):
