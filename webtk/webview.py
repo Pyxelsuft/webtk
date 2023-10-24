@@ -68,7 +68,35 @@ class WebView:
         self.version_str = self.bts(tvc.version_number)
         self.version_pre_release = self.bts(tvc.pre_release)
         self.version_build_metadata = self.bts(tvc.build_metadata)
+        self.bind_cache = {}
         self.inited = True
+
+    def response(self, req_id: bytes, data: any = '', is_rejected: bool = False) -> None:
+        if type(data) == bytes:
+            self.dll.webview_return(self.wv, req_id, int(is_rejected), data)
+        elif type(data) == str:
+            self.dll.webview_return(self.wv, req_id, int(is_rejected), self.stb(data))
+        else:
+            self.dll.webview_return(self.wv, req_id, int(is_rejected), self.stb(json.dumps(data)))
+
+    def bind(self, func_name: str, func: any, data_ptr: any = None) -> None:
+        if func_name in self.bind_cache:
+            raise RuntimeError(f'Function "{func_name}" is already bound')
+
+        def bind_handler(req_id: bytes, data: bytes, data_ptr_res: any) -> None:
+            if data_ptr:
+                return func(req_id, *json.loads(self.bts(data)), data_ptr_res)
+            func(req_id, *json.loads(self.bts(data)))
+
+        bind_handler_cb = bind_cb(bind_handler)
+        self.bind_cache[func_name] = (bind_handler, bind_handler_cb)
+        self.dll.webview_bind(self.wv, self.stb(func_name), bind_handler_cb, data_ptr)
+
+    def unbind(self, func_name: str) -> None:
+        if func_name not in self.bind_cache:
+            raise RuntimeError(f'Function "{func_name}" isn\'t bound')
+        del self.bind_cache[func_name]
+        self.dll.webview_unbind(self.wv, self.stb(func_name))
 
     def set_js_hook(self, js_code: str) -> None:
         self.dll.webview_init(self.wv, self.stb(js_code))
@@ -107,6 +135,9 @@ class WebView:
         if not self.inited:
             return
         self.inited = False
+        for func_name in self.bind_cache:
+            self.dll.webview_unbind(self.wv, self.stb(func_name))
+        self.bind_cache.clear()
         self.dll.webview_destroy(self.wv)
 
     def get_window_handle(self) -> any:
@@ -120,6 +151,7 @@ class WebView:
 
     def __del__(self) -> None:
         self.destroy()
+        self.bind_cb = None
         self.dll = None
 
 
