@@ -3,18 +3,31 @@
     user-select: none;
     margin: 0px;
     padding: 0px;
+    overflow: hidden;
 }
 
 body {
     background: linear-gradient(90deg, rgba(40,40,40,1) 0%, rgba(74,74,74,1) 50%);
 }
 
-#button0 {
+#text0 {
+    font-size: 20px;
+}
+
+.button {
+    margin: 4px;
     align: center;
     font-size: 40px;
+    border: 0px solid blue;
+    border-radius: 5px;
+    transition: 0.5s all;
+}
+
+.button:hover {
+    background-color: blue;
+    cursor: grab;
 }
 
 #screen0 {
     width: 100%;
-    clear: both;
 }
