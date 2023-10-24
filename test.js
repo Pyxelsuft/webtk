@@ -1,6 +1,28 @@
 window.onload = function() {
     var temp_title = ' Pixelsuft WebTK Example!';
 
+    if (!window.py_title) {
+        window.py_title = async function(new_title) {
+            document.title = new_title;
+        }
+
+        window.py_print = async function(new_title) {
+            console.log(new_title);
+        }
+
+        window.py_stop = async function(new_title) {
+            window.close();
+        }
+
+        window.py_screen = async function(new_title) {
+            // Blah Blah Blah
+        }
+
+        window.py_fetch = async function(new_title) {
+            // Blah Blah Blah
+        }
+    }
+
     function title_change() {
         temp_title = temp_title.substr(1) + temp_title[0];
         py_title(temp_title).then(function() {

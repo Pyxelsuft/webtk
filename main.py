@@ -18,7 +18,13 @@ class WebViewApp:
         self.wv.bind('py_screen', self.screen_cb)
         self.wv.bind('py_fetch', lambda req_id: threading.Thread(target=self.fetch_cb, args=(req_id, )).start())
         self.wv.set_js_hook(open('test.js').read())
-        self.wv.set_html(open('test.html').read().replace('test.css here please', open('test.css').read()))
+        temp_html = open('test.html').read()
+        temp_html = temp_html.replace(
+            '<link rel="stylesheet" type="text/css" href="test.css">',
+            '<style>' + open('test.css').read() + '</style>'
+        )
+        temp_html = temp_html.replace('<script src="test.js"></script>', '')
+        self.wv.set_html(temp_html)
         self.wv.run()
 
     def fetch_cb(self, req_id: bytes) -> None:
@@ -64,12 +70,11 @@ class WebViewApp:
 
 class BrowserApp:
     def __init__(self) -> None:
-        url = 'index.html'
         try:
-            webtk.chrome.run_chrome('https://pixelsuft.github.io/')
+            webtk.chrome.run_chrome('http://127.0.0.1:2289/test.html')
         except RuntimeError:
             raise RuntimeError('Failed to run any browser')
-        print(1)
+        webtk.server.run_simple_http_server('127.0.0.1', 2289)
 
 
 if __name__ == '__main__':
