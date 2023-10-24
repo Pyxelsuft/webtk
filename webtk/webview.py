@@ -131,6 +131,10 @@ class WebView:
     def stop(self) -> None:
         self.dll.webview_terminate(self.wv)
 
+    def dispatch(self, func: any, data_ptr: any = None) -> None:
+        func_cb = dispatch_cb(func)
+        self.dll.webview_dispatch(self.wv, func_cb, data_ptr)
+
     def destroy(self) -> None:
         if not self.inited:
             return
