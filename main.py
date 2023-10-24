@@ -74,6 +74,7 @@ class BrowserApp:
             webtk.chrome.run_chrome('http://127.0.0.1:2289/test.html')
         except RuntimeError:
             raise RuntimeError('Failed to run any browser')
+        # You can do better communication with custom http servers or even websockets, but I'm lazy :)
         webtk.server.run_simple_http_server('127.0.0.1', 2289)
 
 
