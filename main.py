@@ -79,5 +79,5 @@ class BrowserApp:
 
 
 if __name__ == '__main__':
-    BrowserApp()
-    # WebViewApp()
+    # BrowserApp()
+    WebViewApp()
