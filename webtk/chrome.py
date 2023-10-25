@@ -3,7 +3,7 @@ import sys
 import subprocess
 
 
-def find_chrome_mac() -> any:
+def find_mac() -> any:
     default_dir = r'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
     if os.path.exists(default_dir):
         return default_dir
@@ -31,7 +31,7 @@ def find_chromium_mac() -> any:
     return None
 
 
-def find_chrome_nix() -> any:
+def find_nix() -> any:
     import whichcraft as wch
     chrome_names = ['chromium-browser',
                     'chromium',
@@ -44,7 +44,7 @@ def find_chrome_nix() -> any:
     return None
 
 
-def find_chrome_win() -> any:
+def find_win() -> any:
     import winreg
     reg_path = r'SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe'
 
@@ -64,21 +64,21 @@ def find_chrome_win() -> any:
 
 def find_chrome() -> any:
     if sys.platform == 'win32':
-        return find_chrome_win()
+        return find_win()
     elif sys.platform == 'darwin':
-        return find_chrome_mac() or find_chromium_mac()
+        return find_mac() or find_chromium_mac()
     else:
-        return find_chrome_nix()
+        return find_nix()
 
 
-def chrome_get_run_args(chrome_path: str, url: str, args: any = None) -> list:
+def get_run_args(chrome_path: str, url: str, args: any = None) -> list:
     return [chrome_path, '--new-window', '--app=' + url] + (args or [])
 
 
-def run_chrome(url: str, args: any = None) -> subprocess.Popen:
+def run(url: str, args: any = None) -> subprocess.Popen:
     chrome_path = find_chrome()
     if not chrome_path:
         raise RuntimeError('Failed to find chrome')
-    return subprocess.Popen([
-        chrome_path, '--new-window', '--app=' + url
-    ] + (args or []), stdout=subprocess.PIPE, stderr=sys.stderr, stdin=subprocess.PIPE)
+    return subprocess.Popen(get_run_args(
+        chrome_path, url, args
+    ), stdout=subprocess.PIPE, stderr=sys.stderr, stdin=subprocess.PIPE)

@@ -75,7 +75,8 @@ class WebViewApp:
 class BrowserApp:
     def __init__(self) -> None:
         try:
-            proc = webtk.chrome.run_chrome(
+            # TODO: more arguments
+            proc = webtk.chrome.run(
                 'http://127.0.0.1:2289/test.html', ['--incognito', '--user-data-dir=temp_webtk_example_chrome']
             )
         except RuntimeError:
