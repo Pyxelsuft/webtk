@@ -5,9 +5,11 @@ import ctypes
 if sys.platform == 'win32':
     load_library_func = ctypes.windll.LoadLibrary
     load_library_suffix = 'dll'
+    load_library_prefix = ''
 else:
     load_library_func = ctypes.CDLL
     load_library_suffix = 'dylib' if sys.platform == 'darwin' else 'so'
+    load_library_prefix = 'lib'
 load_library_errors = (OSError, ImportError, ModuleNotFoundError, FileNotFoundError)
 
 
@@ -24,4 +26,6 @@ def load_library(path: str) -> ctypes.CDLL:
             except load_library_errors:
                 if path.endswith('.' + load_library_suffix):
                     return None  # noqa
+                if not path.startswith(load_library_prefix):
+                    return load_library(load_library_prefix + path)
                 return load_library(path + '.' + load_library_suffix)
