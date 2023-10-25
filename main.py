@@ -1,5 +1,7 @@
+import os
 import io
 import base64
+import sys
 import time
 import threading
 import webtk
@@ -73,18 +75,23 @@ class WebViewApp:
 class BrowserApp:
     def __init__(self) -> None:
         try:
-            webtk.chrome.run_chrome('http://127.0.0.1:2289/test.html')
+            proc = webtk.chrome.run_chrome(
+                'http://127.0.0.1:2289/test.html', ['--incognito', '--user-data-dir=temp_chrome']
+            )
         except RuntimeError:
             raise RuntimeError('Failed to run any browser')
         # You can do better communication with custom http server or even websockets, but I'm lazy :)
-        webtk.server.run_simple_http_server('127.0.0.1', 2289)
+        threading.Thread(target=webtk.server.run_simple_http_server, args=('127.0.0.1', 2289)).start()
+        while proc.poll() is None:
+            pass
+        os.kill(os.getpid(), 0 if sys.platform == 'win32' else 9)
 
 
 if __name__ == '__main__':
     try:
         app = WebViewApp()
     except Exception as __err:
-        print(f'Failed to use WebView {__err}, using browser as fallback')
+        print(f'Failed to use WebView ({__err}), using browser as fallback')
         app = BrowserApp()
     if type(app) == WebViewApp:
         app.run()
