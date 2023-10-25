@@ -71,14 +71,29 @@ def find_chrome() -> any:
         return find_nix()
 
 
-def get_run_args(chrome_path: str, url: str, args: any = None) -> list:
-    return [chrome_path, '--new-window', '--app=' + url] + (args or [])
+def get_run_args(
+        chrome_path: str, url: str = None, new_window: bool = True, incognito: bool = False,
+        data_dir: str = None, args: any = None
+) -> list:
+    result = [chrome_path]
+    if url:
+        result.append('--app=' + url)
+    if new_window:
+        result.append('--new-window')
+    if incognito:
+        result.append('--incognito')
+    if data_dir:
+        result.append('--user-data-dir=' + data_dir)
+    if args:
+        result += args
+    return result
 
 
-def run(url: str, args: any = None) -> subprocess.Popen:
+def run(url: str = None, new_window: bool = True, incognito: bool = False,
+        data_dir: str = None, args: any = None) -> subprocess.Popen:
     chrome_path = find_chrome()
     if not chrome_path:
         raise RuntimeError('Failed to find chrome')
     return subprocess.Popen(get_run_args(
-        chrome_path, url, args
+        chrome_path, url, new_window, incognito, data_dir, args
     ), stdout=subprocess.PIPE, stderr=sys.stderr, stdin=subprocess.PIPE)

@@ -25,8 +25,10 @@ window.onload = function() {
 
     function title_change() {
         temp_title = temp_title.substr(1) + temp_title[0];
+        if (temp_title[0] == ' ')
+            return title_change();
         py_title(temp_title).then(function() {
-            setTimeout(title_change, temp_title[0] == 'P' ? 3000 : 200);
+            setTimeout(title_change, temp_title[0] == 'P' ? 3000 : 500);
         });
     }
 
