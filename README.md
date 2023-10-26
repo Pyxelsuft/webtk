@@ -9,6 +9,6 @@ python -m pip install pwebtk
  - Chrome
  - Edge (Untested)
 ## Example
-See [here](main.py)
+See [here](https://github.com/Pyxelsuft/webtk/blob/main/main.py)
 ## TODO
  - FireFox Support
