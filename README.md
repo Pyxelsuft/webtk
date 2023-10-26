@@ -1,4 +1,4 @@
-# Web Toolkit
+# Web ToolKit
 Simple python library for creating web-based desktop apps
 ## Installing
 ```shell
