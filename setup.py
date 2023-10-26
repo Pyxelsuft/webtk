@@ -42,7 +42,7 @@ setup(
     install_requires=tuple(x for x in requirements_content.split('\n') if x.strip()),
     python_requires='>=3.6',
     classifiers=[
-        'LICENSE :: OSI APPROVED :: GNU GENERAL PUBLIC LICENSE V3 OR LATER (GPLV3+)',
+        'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
         'Topic :: Multimedia',
         'Topic :: Software Development',
         'Operating System :: MacOS',
