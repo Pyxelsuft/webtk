@@ -69,7 +69,8 @@ class WebViewApp:
         self.wv.response(req_id)
 
     def __del__(self):
-        self.wv.destroy()
+        if hasattr(self, 'wv'):
+            self.wv.destroy()
 
 
 class BrowserApp:
