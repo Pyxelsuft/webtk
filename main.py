@@ -75,18 +75,19 @@ class WebViewApp:
 
 class BrowserApp:
     def __init__(self) -> None:
+        self.port = 2389
         try:
             proc = webtk.chrome.run(
-                'http://127.0.0.1:2289/test.html',
+                f'http://127.0.0.1:{self.port}/test.html',
                 incognito=True, data_dir='temp_webtk_example_chrome'
             )
         except RuntimeError:
             raise RuntimeError('Failed to run any browser')
         # You can do better communication with custom http server or even websockets, but I'm lazy :)
-        threading.Thread(target=webtk.server.run_simple_http_server, args=('127.0.0.1', 2289)).start()
+        threading.Thread(target=webtk.server.run_simple_http_server, args=('127.0.0.1', self.port)).start()
         while proc.poll() is None:
             pass
-        os.kill(os.getpid(), 0 if sys.platform == 'win32' else 9)
+        os.kill(os.getpid(), 1 if sys.platform == 'win32' else 9)
 
 
 if __name__ == '__main__':
