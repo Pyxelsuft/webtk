@@ -5,8 +5,8 @@ import sys
 import time
 import threading
 import webtk
-import requests
-from PIL import ImageGrab
+import requests  # noqa
+from PIL import ImageGrab  # noqa
 
 
 class WebViewApp:

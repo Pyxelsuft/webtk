@@ -1,6 +1,9 @@
 __pycache__
 .vs
 .vscode
+build
+dist
+webtk.egg-info
 .idea
 *temp
 *.dll
