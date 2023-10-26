@@ -25,7 +25,7 @@ if 'sdist' in sys.argv or 'bdist_wheel' in sys.argv:
         shutil.rmtree(dist_path)
 
 setup(
-    name='webtk',
+    name='pwebtk',
     author='Pixelsuft',
     url='https://github.com/Pyxelsuft/webtk',
     project_urls={
@@ -34,7 +34,7 @@ setup(
     },
     version=version,
     packages=find_packages(),
-    license='MIT',
+    license='GPLV3+',
     description='Simple python library for creating web-based desktop apps',
     long_description=readme_content,
     long_description_content_type='text/markdown',
@@ -42,7 +42,7 @@ setup(
     install_requires=tuple(x for x in requirements_content.split('\n') if x.strip()),
     python_requires='>=3.6',
     classifiers=[
-        'License :: OSI Approved :: MIT License',
+        'LICENSE :: OSI APPROVED :: GNU GENERAL PUBLIC LICENSE V3 OR LATER (GPLV3+)',
         'Topic :: Multimedia',
         'Topic :: Software Development',
         'Operating System :: MacOS',
